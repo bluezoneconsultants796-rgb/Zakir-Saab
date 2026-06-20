@@ -2084,9 +2084,193 @@
     }
     .psy-modal-close:hover { background:rgba(255,255,255,0.22); transform:rotate(90deg); }
 
+    /* ═══════════════════════════════════════════════════════
+       LANGUAGE TRAINING & CAREER COUNSELLING — Premium Section
+    ═══════════════════════════════════════════════════════ */
+    .bza-intro-text {
+      font-size:15.5px; color:var(--text-soft);
+      line-height:1.8; max-width:760px;
+      margin-bottom:48px;
+    }
+
+    /* ── Video Showcase (mirrors prior section video cards) ── */
+    .bza-video-grid {
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:28px;
+      margin-bottom:64px;
+    }
+    .bza-video-card {
+      position:relative;
+      border-radius:var(--r-lg);
+      overflow:hidden;
+      aspect-ratio:16/10;
+      cursor:pointer;
+      border:1px solid var(--border);
+      background:var(--ink);
+      box-shadow:var(--sh-sm);
+      transition:box-shadow var(--t-med) var(--ease), transform var(--t-med) var(--ease);
+    }
+    .bza-video-card:hover {
+      box-shadow:0 24px 70px rgba(37,99,235,0.16), var(--sh-md);
+      transform:translateY(-4px);
+    }
+    .bza-video-thumb {
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      object-fit:cover;
+      transition:transform 0.7s var(--ease), filter 0.7s var(--ease);
+      filter:brightness(0.78) saturate(1.05);
+    }
+    .bza-video-card:hover .bza-video-thumb {
+      transform:scale(1.08);
+      filter:brightness(0.62) saturate(1.1);
+    }
+    .bza-video-scrim {
+      position:absolute; inset:0;
+      background:linear-gradient(180deg, rgba(8,13,26,0.05) 0%, rgba(8,13,26,0.55) 100%);
+      pointer-events:none;
+    }
+    .bza-video-glow {
+      position:absolute; inset:0;
+      opacity:0;
+      transition:opacity var(--t-med) var(--ease);
+      pointer-events:none;
+      background:radial-gradient(circle at 50% 50%, rgba(201,168,76,0.20), transparent 70%);
+    }
+    .bza-video-card:hover .bza-video-glow { opacity:1; }
+    .bza-video-playbtn {
+      position:absolute; top:50%; left:50%;
+      transform:translate(-50%,-50%) scale(1);
+      width:74px; height:74px;
+      border-radius:50%;
+      background:rgba(255,255,255,0.14);
+      backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+      border:1.5px solid rgba(255,255,255,0.45);
+      display:flex; align-items:center; justify-content:center;
+      transition:transform var(--t-med) var(--ease), background var(--t-med) var(--ease);
+      animation:bzaPlayPulse 2.6s ease-in-out infinite;
+    }
+    .bza-video-card:hover .bza-video-playbtn {
+      transform:translate(-50%,-50%) scale(1.1);
+      background:rgba(255,255,255,0.22);
+    }
+    .bza-video-playbtn svg { width:24px; height:24px; margin-left:4px; fill:#fff; }
+    @keyframes bzaPlayPulse {
+      0%, 100% { box-shadow:0 0 0 0 rgba(255,255,255,0.18); }
+      50% { box-shadow:0 0 0 14px rgba(255,255,255,0); }
+    }
+    .bza-video-caption {
+      position:absolute; left:24px; bottom:20px; right:24px;
+      z-index:1;
+    }
+    .bza-video-caption .bza-label {
+      font-size:10px; font-weight:800; letter-spacing:2px; text-transform:uppercase;
+      color:var(--gold-light); margin-bottom:6px; display:block;
+    }
+    .bza-video-caption .bza-title {
+      font-family:'DM Serif Display', serif;
+      font-size:19px; color:#fff; line-height:1.25;
+    }
+
+    /* ── Modal (mirrors prior section modal) ──────────────── */
+    .bza-modal-overlay {
+      position:fixed; inset:0;
+      background:rgba(5,8,16,0.78);
+      backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+      display:flex; align-items:center; justify-content:center;
+      padding:24px;
+      z-index:999999;
+      opacity:0; visibility:hidden;
+      transition:opacity var(--t-med) var(--ease), visibility var(--t-med) var(--ease);
+    }
+    .bza-modal-overlay.active { opacity:1; visibility:visible; }
+    .bza-modal-box {
+      position:relative;
+      width:100%; max-width:920px;
+      border-radius:var(--r-lg);
+      overflow:hidden;
+      background:var(--ink);
+      border:1px solid rgba(255,255,255,0.12);
+      box-shadow:var(--sh-xl);
+      transform:translateY(24px) scale(0.97);
+      opacity:0;
+      transition:transform var(--t-slow) var(--ease), opacity var(--t-slow) var(--ease);
+    }
+    .bza-modal-overlay.active .bza-modal-box {
+      transform:translateY(0) scale(1);
+      opacity:1;
+    }
+    .bza-modal-box video {
+      display:block;
+      width:100%; max-height:80vh;
+      background:#000;
+    }
+    .bza-modal-close {
+      position:absolute; top:14px; right:14px;
+      width:40px; height:40px;
+      border-radius:50%;
+      background:rgba(255,255,255,0.10);
+      backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+      border:1px solid rgba(255,255,255,0.25);
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer;
+      color:#fff; font-size:18px; line-height:1;
+      transition:background var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+      z-index:2;
+    }
+    .bza-modal-close:hover { background:rgba(255,255,255,0.22); transform:rotate(90deg); }
+
+    /* ── Achievement Strip ────────────────────────────────── */
+    .bza-achieve-grid {
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:20px;
+    }
+    .bza-achieve-card {
+      background:var(--glass);
+      backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+      border:1px solid var(--border);
+      border-radius:var(--r-lg);
+      padding:28px 24px;
+      text-align:center;
+      box-shadow:var(--sh-sm);
+      transition:transform var(--t-med) var(--ease), box-shadow var(--t-med) var(--ease), border-color var(--t-med) var(--ease);
+      position:relative; overflow:hidden;
+    }
+    body.dark .bza-achieve-card { background:rgba(15,23,42,0.72); border-color:var(--border); }
+    .bza-achieve-card::before {
+      content:'';
+      position:absolute; top:0; left:0; right:0; height:2px;
+      background:linear-gradient(90deg, var(--blue), var(--gold-light));
+      transform:scaleX(0); transform-origin:left;
+      transition:transform var(--t-med) var(--ease);
+    }
+    .bza-achieve-card:hover::before { transform:scaleX(1); }
+    .bza-achieve-card:hover {
+      transform:translateY(-6px);
+      box-shadow:var(--sh-md);
+      border-color:var(--border-strong);
+    }
+    .bza-achieve-title {
+      font-family:'DM Serif Display', serif;
+      font-size:18px; font-weight:400;
+      color:var(--text); margin-bottom:8px;
+      line-height:1.3;
+    }
+    .bza-achieve-label {
+      font-size:12.5px; font-weight:700;
+      text-transform:uppercase; letter-spacing:1.2px;
+      color:var(--blue);
+    }
+
     @media (max-width: 760px) {
-      .psy-video-grid { grid-template-columns:1fr; }
-      .psy-modal-box video { max-height:60vh; }
+      .bza-video-grid { grid-template-columns:1fr; }
+      .bza-achieve-grid { grid-template-columns:1fr 1fr; }
+      .bza-modal-box video { max-height:60vh; }
+    }
+    @media (max-width: 480px) {
+      .bza-achieve-grid { grid-template-columns:1fr; }
     }
   </style>
 </head>
@@ -2441,6 +2625,71 @@
   <div class="psy-modal-box">
     <button class="psy-modal-close" id="psyModalClose" aria-label="Close video">✕</button>
     <video id="psyModalVideo" controls playsinline></video>
+  </div>
+</div>
+
+<!-- Language Training & Career Counselling -->
+<section class="section" id="language-career" style="position:relative;overflow:hidden;">
+  <div class="section-orb" data-parallax="0.02" style="width:520px;height:520px;background:radial-gradient(circle,rgba(201,168,76,0.06),transparent);top:-110px;right:-130px;"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="section-label">BlueZone Academy</div>
+    <h2 class="section-h2">Language Training &amp; Career Counselling</h2>
+    <p class="section-sub">Empowering students and professionals through IELTS, PTE, Duolingo preparation, career guidance and academic mentoring.</p>
+    <p class="bza-intro-text">Providing language proficiency training, study abroad guidance, academic mentoring and career counselling through BlueZone Academy. Supporting students in achieving international education and professional development goals.</p>
+
+    <div class="bza-video-grid">
+      <div class="bza-video-card reveal" data-video="BLUEZONE_VIDEO_1.mp4" tabindex="0" role="button" aria-label="Play IELTS, PTE, Duolingo Training video">
+        <video class="bza-video-thumb" muted playsinline preload="metadata" src="BLUEZONE_VIDEO_1.mp4#t=0.4"></video>
+        <div class="bza-video-scrim"></div>
+        <div class="bza-video-glow"></div>
+        <div class="bza-video-playbtn" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="bza-video-caption">
+          <span class="bza-label">Showcase</span>
+          <div class="bza-title">IELTS • PTE • Duolingo Training</div>
+        </div>
+      </div>
+      <div class="bza-video-card reveal reveal-delay-1" data-video="BLUEZONE_VIDEO_2.mp4" tabindex="0" role="button" aria-label="Play Career Counselling and Academic Mentoring video">
+        <video class="bza-video-thumb" muted playsinline preload="metadata" src="BLUEZONE_VIDEO_2.mp4#t=0.4"></video>
+        <div class="bza-video-scrim"></div>
+        <div class="bza-video-glow"></div>
+        <div class="bza-video-playbtn" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="bza-video-caption">
+          <span class="bza-label">Showcase</span>
+          <div class="bza-title">Career Counselling &amp; Academic Mentoring</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bza-achieve-grid">
+      <div class="bza-achieve-card reveal">
+        <div class="bza-achieve-title">IELTS / PTE / Duolingo</div>
+        <div class="bza-achieve-label">Language Excellence</div>
+      </div>
+      <div class="bza-achieve-card reveal reveal-delay-1">
+        <div class="bza-achieve-title">Study Abroad Guidance</div>
+        <div class="bza-achieve-label">Academic Success</div>
+      </div>
+      <div class="bza-achieve-card reveal reveal-delay-2">
+        <div class="bza-achieve-title">Career Mentoring</div>
+        <div class="bza-achieve-label">Professional Growth</div>
+      </div>
+      <div class="bza-achieve-card reveal reveal-delay-3">
+        <div class="bza-achieve-title">Student Development</div>
+        <div class="bza-achieve-label">Future Readiness</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Language Training & Career Counselling Video Modal -->
+<div class="bza-modal-overlay" id="bzaModalOverlay">
+  <div class="bza-modal-box">
+    <button class="bza-modal-close" id="bzaModalClose" aria-label="Close video">✕</button>
+    <video id="bzaModalVideo" controls playsinline></video>
   </div>
 </div>
 
@@ -3308,6 +3557,37 @@ document.querySelectorAll('.exec-role').forEach(role => {
   const modalVideo = document.getElementById('psyModalVideo');
   const closeBtn = document.getElementById('psyModalClose');
   const cards = document.querySelectorAll('.psy-video-card');
+
+  function openModal(src) {
+    modalVideo.src = src;
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    modalVideo.play().catch(() => {});
+  }
+  function closeModal() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    modalVideo.pause();
+    modalVideo.removeAttribute('src');
+    modalVideo.load();
+  }
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => openModal(card.dataset.video));
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(card.dataset.video); }
+    });
+  });
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay.classList.contains('active')) closeModal(); });
+})();
+/* ── LANGUAGE TRAINING & CAREER COUNSELLING VIDEO MODAL ── */
+(function () {
+  const overlay = document.getElementById('bzaModalOverlay');
+  const modalVideo = document.getElementById('bzaModalVideo');
+  const closeBtn = document.getElementById('bzaModalClose');
+  const cards = document.querySelectorAll('.bza-video-card');
 
   function openModal(src) {
     modalVideo.src = src;
