@@ -1763,6 +1763,194 @@
     @media (prefers-reduced-motion:reduce) {
       *, *::before, *::after { animation-duration:0.001ms !important; transition-duration:0.001ms !important; scroll-behavior:auto !important; }
     }
+    /* ═══════════════════════════════════════════════════════
+       EVENT HOSTING & STAGE MODERATION — Premium Section
+    ═══════════════════════════════════════════════════════ */
+    .event-hosting-grid {
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:24px;
+      margin-bottom:56px;
+    }
+    .event-block-card {
+      background:var(--glass);
+      backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+      border:1px solid var(--border);
+      border-radius:var(--r-lg);
+      padding:32px 30px;
+      box-shadow:var(--sh-sm);
+      transition:transform var(--t-med) var(--ease), box-shadow var(--t-med) var(--ease), border-color var(--t-med) var(--ease);
+      position:relative; overflow:hidden;
+    }
+    body.dark .event-block-card { background:rgba(15,23,42,0.72); border-color:var(--border); }
+    .event-block-card::after{
+      content:'';
+      position:absolute; inset:0;
+      background:linear-gradient(135deg, rgba(37,99,235,0.06), transparent 60%);
+      opacity:0; transition:opacity var(--t-med) var(--ease);
+      pointer-events:none;
+    }
+    .event-block-card:hover {
+      transform:translateY(-6px);
+      box-shadow:var(--sh-md);
+      border-color:var(--border-strong);
+    }
+    .event-block-card:hover::after { opacity:1; }
+    .event-block-icon {
+      width:54px; height:54px;
+      border-radius:var(--r-md);
+      display:flex; align-items:center; justify-content:center;
+      font-size:24px;
+      background:linear-gradient(135deg, rgba(37,99,235,0.12), rgba(201,168,76,0.12));
+      border:1px solid var(--border);
+      margin-bottom:20px;
+      position:relative; z-index:1;
+    }
+    .event-block-card h3 {
+      font-family:'DM Serif Display', serif;
+      font-size:21px; font-weight:400;
+      color:var(--text); margin-bottom:10px;
+      line-height:1.3;
+      position:relative; z-index:1;
+    }
+    .event-block-card p {
+      font-size:14.5px; color:var(--muted);
+      line-height:1.7;
+      position:relative; z-index:1;
+    }
+
+    /* ── Video Showcase ──────────────────────────────────── */
+    .event-video-grid {
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:28px;
+    }
+    .event-video-card {
+      position:relative;
+      border-radius:var(--r-lg);
+      overflow:hidden;
+      aspect-ratio:16/10;
+      cursor:pointer;
+      border:1px solid var(--border);
+      background:var(--ink);
+      box-shadow:var(--sh-sm);
+      transition:box-shadow var(--t-med) var(--ease), transform var(--t-med) var(--ease);
+    }
+    .event-video-card:hover {
+      box-shadow:0 24px 70px rgba(37,99,235,0.18), var(--sh-md);
+      transform:translateY(-4px);
+    }
+    .event-video-thumb {
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      object-fit:cover;
+      transition:transform 0.7s var(--ease), filter 0.7s var(--ease);
+      filter:brightness(0.78) saturate(1.05);
+    }
+    .event-video-card:hover .event-video-thumb {
+      transform:scale(1.08);
+      filter:brightness(0.62) saturate(1.1);
+    }
+    .event-video-scrim {
+      position:absolute; inset:0;
+      background:linear-gradient(180deg, rgba(8,13,26,0.05) 0%, rgba(8,13,26,0.55) 100%);
+      pointer-events:none;
+    }
+    .event-video-glow {
+      position:absolute; inset:0;
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,0.06);
+      opacity:0;
+      transition:opacity var(--t-med) var(--ease);
+      pointer-events:none;
+      background:radial-gradient(circle at 50% 50%, rgba(96,165,250,0.20), transparent 70%);
+    }
+    .event-video-card:hover .event-video-glow { opacity:1; }
+    .event-video-playbtn {
+      position:absolute; top:50%; left:50%;
+      transform:translate(-50%,-50%) scale(1);
+      width:74px; height:74px;
+      border-radius:50%;
+      background:rgba(255,255,255,0.14);
+      backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+      border:1.5px solid rgba(255,255,255,0.45);
+      display:flex; align-items:center; justify-content:center;
+      transition:transform var(--t-med) var(--ease), background var(--t-med) var(--ease);
+      animation:eventPlayPulse 2.6s ease-in-out infinite;
+    }
+    .event-video-card:hover .event-video-playbtn {
+      transform:translate(-50%,-50%) scale(1.1);
+      background:rgba(255,255,255,0.22);
+    }
+    .event-video-playbtn svg { width:24px; height:24px; margin-left:4px; fill:#fff; }
+    @keyframes eventPlayPulse {
+      0%, 100% { box-shadow:0 0 0 0 rgba(255,255,255,0.18); }
+      50% { box-shadow:0 0 0 14px rgba(255,255,255,0); }
+    }
+    .event-video-caption {
+      position:absolute; left:24px; bottom:20px; right:24px;
+      z-index:1;
+    }
+    .event-video-caption .ev-label {
+      font-size:10px; font-weight:800; letter-spacing:2px; text-transform:uppercase;
+      color:var(--blue-ultra); margin-bottom:6px; display:block;
+    }
+    .event-video-caption .ev-title {
+      font-family:'DM Serif Display', serif;
+      font-size:19px; color:#fff; line-height:1.25;
+    }
+
+    /* ── Modal ────────────────────────────────────────────── */
+    .event-modal-overlay {
+      position:fixed; inset:0;
+      background:rgba(5,8,16,0.78);
+      backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+      display:flex; align-items:center; justify-content:center;
+      padding:24px;
+      z-index:999999;
+      opacity:0; visibility:hidden;
+      transition:opacity var(--t-med) var(--ease), visibility var(--t-med) var(--ease);
+    }
+    .event-modal-overlay.active { opacity:1; visibility:visible; }
+    .event-modal-box {
+      position:relative;
+      width:100%; max-width:920px;
+      border-radius:var(--r-lg);
+      overflow:hidden;
+      background:var(--ink);
+      border:1px solid rgba(255,255,255,0.12);
+      box-shadow:var(--sh-xl);
+      transform:translateY(24px) scale(0.97);
+      opacity:0;
+      transition:transform var(--t-slow) var(--ease), opacity var(--t-slow) var(--ease);
+    }
+    .event-modal-overlay.active .event-modal-box {
+      transform:translateY(0) scale(1);
+      opacity:1;
+    }
+    .event-modal-box video {
+      display:block;
+      width:100%; max-height:80vh;
+      background:#000;
+    }
+    .event-modal-close {
+      position:absolute; top:14px; right:14px;
+      width:40px; height:40px;
+      border-radius:50%;
+      background:rgba(255,255,255,0.10);
+      backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+      border:1px solid rgba(255,255,255,0.25);
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer;
+      color:#fff; font-size:18px; line-height:1;
+      transition:background var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+      z-index:2;
+    }
+    .event-modal-close:hover { background:rgba(255,255,255,0.22); transform:rotate(90deg); }
+
+    @media (max-width: 760px) {
+      .event-hosting-grid, .event-video-grid { grid-template-columns:1fr; }
+      .event-modal-box video { max-height:60vh; }
+    }
   </style>
 </head>
 <body>
@@ -1995,6 +2183,64 @@
     </div>
   </div>
 </section>
+
+<!-- Event Hosting & Stage Moderation -->
+<section class="section" id="event-hosting" style="position:relative;overflow:hidden;">
+  <div class="section-orb" data-parallax="0.02" style="width:520px;height:520px;background:radial-gradient(circle,rgba(201,168,76,0.07),transparent);top:-120px;right:-140px;"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="section-label">Public Engagement</div>
+    <h2 class="section-h2">Event Hosting &amp; Stage Moderation</h2>
+    <p class="section-sub">Hosting prestigious institutional events, educational ceremonies, conferences, seminars, public engagements and fitness community programs with confidence, professionalism and audience impact.</p>
+
+    <div class="event-hosting-grid">
+      <div class="event-block-card reveal">
+        <div class="event-block-icon">🎓</div>
+        <h3>Educational &amp; Institutional Event Hosting</h3>
+        <p>Anchoring convocations, academic ceremonies, conferences and seminars with polished stage presence, precise pacing and command of institutional protocol.</p>
+      </div>
+      <div class="event-block-card reveal reveal-delay-1">
+        <div class="event-block-icon">🏋️</div>
+        <h3>Fitness Hub &amp; Community Event Hosting</h3>
+        <p>Energizing fitness community programs, wellness launches and public engagements with charisma, motivational delivery and authentic audience connection.</p>
+      </div>
+    </div>
+
+    <div class="event-video-grid">
+      <div class="event-video-card reveal" data-video="EVENT_VIDEO_1.mp4" tabindex="0" role="button" aria-label="Play Educational &amp; Institutional Event Hosting video">
+        <video class="event-video-thumb" muted playsinline preload="metadata" src="EVENT_VIDEO_1.mp4#t=0.4"></video>
+        <div class="event-video-scrim"></div>
+        <div class="event-video-glow"></div>
+        <div class="event-video-playbtn" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="event-video-caption">
+          <span class="ev-label">Showcase</span>
+          <div class="ev-title">Educational &amp; Institutional Hosting</div>
+        </div>
+      </div>
+      <div class="event-video-card reveal reveal-delay-1" data-video="EVENT_VIDEO_2.mp4" tabindex="0" role="button" aria-label="Play Fitness Hub &amp; Community Event Hosting video">
+        <video class="event-video-thumb" muted playsinline preload="metadata" src="EVENT_VIDEO_2.mp4#t=0.4"></video>
+        <div class="event-video-scrim"></div>
+        <div class="event-video-glow"></div>
+        <div class="event-video-playbtn" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="event-video-caption">
+          <span class="ev-label">Showcase</span>
+          <div class="ev-title">Fitness Hub &amp; Community Hosting</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Event Hosting Video Modal -->
+<div class="event-modal-overlay" id="eventModalOverlay">
+  <div class="event-modal-box">
+    <button class="event-modal-close" id="eventModalClose" aria-label="Close video">✕</button>
+    <video id="eventModalVideo" controls playsinline></video>
+  </div>
+</div>
 
 <!-- Impact -->
 <section class="section" id="impact" style="position:relative;overflow:hidden;">
@@ -2823,6 +3069,37 @@ document.querySelectorAll('.exec-role').forEach(role => {
   role.addEventListener('mouseenter', () => { if (spineEl) spineEl.style.opacity = '1'; });
   role.addEventListener('mouseleave', () => { if (spineEl) spineEl.style.opacity = ''; });
 });
+/* ── EVENT HOSTING VIDEO MODAL ───────────────────────── */
+(function () {
+  const overlay = document.getElementById('eventModalOverlay');
+  const modalVideo = document.getElementById('eventModalVideo');
+  const closeBtn = document.getElementById('eventModalClose');
+  const cards = document.querySelectorAll('.event-video-card');
+
+  function openModal(src) {
+    modalVideo.src = src;
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    modalVideo.play().catch(() => {});
+  }
+  function closeModal() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    modalVideo.pause();
+    modalVideo.removeAttribute('src');
+    modalVideo.load();
+  }
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => openModal(card.dataset.video));
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(card.dataset.video); }
+    });
+  });
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay.classList.contains('active')) closeModal(); });
+})();
 </script>
 </body>
 </html>
