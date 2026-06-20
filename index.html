@@ -1947,9 +1947,146 @@
     }
     .event-modal-close:hover { background:rgba(255,255,255,0.22); transform:rotate(90deg); }
 
+    /* ═══════════════════════════════════════════════════════
+       EMOTIONAL PSYCHOLOGY & TEACHING METHODOLOGY — Premium Section
+    ═══════════════════════════════════════════════════════ */
+    .psy-intro-text {
+      font-size:15.5px; color:var(--text-soft);
+      line-height:1.8; max-width:760px;
+      margin-bottom:48px;
+    }
+
+    /* ── Video Showcase (mirrors event-hosting video cards) ── */
+    .psy-video-grid {
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:28px;
+      margin-bottom:64px;
+    }
+    .psy-video-card {
+      position:relative;
+      border-radius:var(--r-lg);
+      overflow:hidden;
+      aspect-ratio:16/10;
+      cursor:pointer;
+      border:1px solid var(--border);
+      background:var(--ink);
+      box-shadow:var(--sh-sm);
+      transition:box-shadow var(--t-med) var(--ease), transform var(--t-med) var(--ease);
+    }
+    .psy-video-card:hover {
+      box-shadow:0 24px 70px rgba(124,58,237,0.16), var(--sh-md);
+      transform:translateY(-4px);
+    }
+    .psy-video-thumb {
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      object-fit:cover;
+      transition:transform 0.7s var(--ease), filter 0.7s var(--ease);
+      filter:brightness(0.78) saturate(1.05);
+    }
+    .psy-video-card:hover .psy-video-thumb {
+      transform:scale(1.08);
+      filter:brightness(0.62) saturate(1.1);
+    }
+    .psy-video-scrim {
+      position:absolute; inset:0;
+      background:linear-gradient(180deg, rgba(8,13,26,0.05) 0%, rgba(8,13,26,0.55) 100%);
+      pointer-events:none;
+    }
+    .psy-video-glow {
+      position:absolute; inset:0;
+      opacity:0;
+      transition:opacity var(--t-med) var(--ease);
+      pointer-events:none;
+      background:radial-gradient(circle at 50% 50%, rgba(124,58,237,0.20), transparent 70%);
+    }
+    .psy-video-card:hover .psy-video-glow { opacity:1; }
+    .psy-video-playbtn {
+      position:absolute; top:50%; left:50%;
+      transform:translate(-50%,-50%) scale(1);
+      width:74px; height:74px;
+      border-radius:50%;
+      background:rgba(255,255,255,0.14);
+      backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+      border:1.5px solid rgba(255,255,255,0.45);
+      display:flex; align-items:center; justify-content:center;
+      transition:transform var(--t-med) var(--ease), background var(--t-med) var(--ease);
+      animation:psyPlayPulse 2.6s ease-in-out infinite;
+    }
+    .psy-video-card:hover .psy-video-playbtn {
+      transform:translate(-50%,-50%) scale(1.1);
+      background:rgba(255,255,255,0.22);
+    }
+    .psy-video-playbtn svg { width:24px; height:24px; margin-left:4px; fill:#fff; }
+    @keyframes psyPlayPulse {
+      0%, 100% { box-shadow:0 0 0 0 rgba(255,255,255,0.18); }
+      50% { box-shadow:0 0 0 14px rgba(255,255,255,0); }
+    }
+    .psy-video-caption {
+      position:absolute; left:24px; bottom:20px; right:24px;
+      z-index:1;
+    }
+    .psy-video-caption .psy-label {
+      font-size:10px; font-weight:800; letter-spacing:2px; text-transform:uppercase;
+      color:#C4B5FD; margin-bottom:6px; display:block;
+    }
+    .psy-video-caption .psy-title {
+      font-family:'DM Serif Display', serif;
+      font-size:19px; color:#fff; line-height:1.25;
+    }
+
+    /* ── Modal (mirrors event-hosting modal) ──────────────── */
+    .psy-modal-overlay {
+      position:fixed; inset:0;
+      background:rgba(5,8,16,0.78);
+      backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+      display:flex; align-items:center; justify-content:center;
+      padding:24px;
+      z-index:999999;
+      opacity:0; visibility:hidden;
+      transition:opacity var(--t-med) var(--ease), visibility var(--t-med) var(--ease);
+    }
+    .psy-modal-overlay.active { opacity:1; visibility:visible; }
+    .psy-modal-box {
+      position:relative;
+      width:100%; max-width:920px;
+      border-radius:var(--r-lg);
+      overflow:hidden;
+      background:var(--ink);
+      border:1px solid rgba(255,255,255,0.12);
+      box-shadow:var(--sh-xl);
+      transform:translateY(24px) scale(0.97);
+      opacity:0;
+      transition:transform var(--t-slow) var(--ease), opacity var(--t-slow) var(--ease);
+    }
+    .psy-modal-overlay.active .psy-modal-box {
+      transform:translateY(0) scale(1);
+      opacity:1;
+    }
+    .psy-modal-box video {
+      display:block;
+      width:100%; max-height:80vh;
+      background:#000;
+    }
+    .psy-modal-close {
+      position:absolute; top:14px; right:14px;
+      width:40px; height:40px;
+      border-radius:50%;
+      background:rgba(255,255,255,0.10);
+      backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+      border:1px solid rgba(255,255,255,0.25);
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer;
+      color:#fff; font-size:18px; line-height:1;
+      transition:background var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+      z-index:2;
+    }
+    .psy-modal-close:hover { background:rgba(255,255,255,0.22); transform:rotate(90deg); }
+
     @media (max-width: 760px) {
-      .event-hosting-grid, .event-video-grid { grid-template-columns:1fr; }
-      .event-modal-box video { max-height:60vh; }
+      .psy-video-grid { grid-template-columns:1fr; }
+      .psy-modal-box video { max-height:60vh; }
     }
   </style>
 </head>
@@ -2239,6 +2376,71 @@
   <div class="event-modal-box">
     <button class="event-modal-close" id="eventModalClose" aria-label="Close video">✕</button>
     <video id="eventModalVideo" controls playsinline></video>
+  </div>
+</div>
+
+<!-- Emotional Psychology & Teaching Methodology -->
+<section class="section" id="psychology-teaching" style="position:relative;overflow:hidden;">
+  <div class="section-orb" data-parallax="0.02" style="width:520px;height:520px;background:radial-gradient(circle,rgba(124,58,237,0.06),transparent);top:-100px;left:-140px;"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="section-label">Education &amp; Training</div>
+    <h2 class="section-h2">Emotional Psychology &amp; Teaching Methodology</h2>
+    <p class="section-sub">Training educators, institutional staff and students through emotional psychology, learning science, communication excellence and modern teaching methodologies.</p>
+    <p class="psy-intro-text">Delivered professional development sessions, teacher trainings, educational workshops and student engagement programs across schools, colleges and educational institutions, focusing on emotional intelligence, classroom effectiveness, communication skills and transformational learning experiences.</p>
+
+    <div class="psy-video-grid">
+      <div class="psy-video-card reveal" data-video="PSYCHOLOGY_VIDEO_1.mp4" tabindex="0" role="button" aria-label="Play Faculty Development &amp; Staff Training video">
+        <video class="psy-video-thumb" muted playsinline preload="metadata" src="PSYCHOLOGY_VIDEO_1.mp4#t=0.4"></video>
+        <div class="psy-video-scrim"></div>
+        <div class="psy-video-glow"></div>
+        <div class="psy-video-playbtn" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="psy-video-caption">
+          <span class="psy-label">Showcase</span>
+          <div class="psy-title">Faculty Development &amp; Staff Training</div>
+        </div>
+      </div>
+      <div class="psy-video-card reveal reveal-delay-1" data-video="PSYCHOLOGY_VIDEO_2.mp4" tabindex="0" role="button" aria-label="Play Student Engagement &amp; Learning Excellence video">
+        <video class="psy-video-thumb" muted playsinline preload="metadata" src="PSYCHOLOGY_VIDEO_2.mp4#t=0.4"></video>
+        <div class="psy-video-scrim"></div>
+        <div class="psy-video-glow"></div>
+        <div class="psy-video-playbtn" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="psy-video-caption">
+          <span class="psy-label">Showcase</span>
+          <div class="psy-title">Student Engagement &amp; Learning Excellence</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="impact-grid">
+      <div class="impact-card reveal">
+        <div class="impact-num counter" data-target="50">0</div>
+        <div class="impact-label">Training Sessions</div>
+      </div>
+      <div class="impact-card reveal reveal-delay-1">
+        <div class="impact-num counter" data-target="1000">0</div>
+        <div class="impact-label">Students Reached</div>
+      </div>
+      <div class="impact-card reveal reveal-delay-2">
+        <div class="impact-num counter" data-target="100">0</div>
+        <div class="impact-label">Educators Trained</div>
+      </div>
+      <div class="impact-card reveal reveal-delay-3">
+        <div class="impact-num counter" data-target="12">0</div>
+        <div class="impact-label">Institutions Served</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Emotional Psychology Video Modal -->
+<div class="psy-modal-overlay" id="psyModalOverlay">
+  <div class="psy-modal-box">
+    <button class="psy-modal-close" id="psyModalClose" aria-label="Close video">✕</button>
+    <video id="psyModalVideo" controls playsinline></video>
   </div>
 </div>
 
@@ -3075,6 +3277,37 @@ document.querySelectorAll('.exec-role').forEach(role => {
   const modalVideo = document.getElementById('eventModalVideo');
   const closeBtn = document.getElementById('eventModalClose');
   const cards = document.querySelectorAll('.event-video-card');
+
+  function openModal(src) {
+    modalVideo.src = src;
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    modalVideo.play().catch(() => {});
+  }
+  function closeModal() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    modalVideo.pause();
+    modalVideo.removeAttribute('src');
+    modalVideo.load();
+  }
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => openModal(card.dataset.video));
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(card.dataset.video); }
+    });
+  });
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay.classList.contains('active')) closeModal(); });
+})();
+/* ── EMOTIONAL PSYCHOLOGY VIDEO MODAL ────────────────── */
+(function () {
+  const overlay = document.getElementById('psyModalOverlay');
+  const modalVideo = document.getElementById('psyModalVideo');
+  const closeBtn = document.getElementById('psyModalClose');
+  const cards = document.querySelectorAll('.psy-video-card');
 
   function openModal(src) {
     modalVideo.src = src;
