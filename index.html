@@ -172,16 +172,6 @@
       100% { background-position:200% 50%; }
     }
 
-    /* ── LOADING SCREEN ──────────────────────────────────── */
-    #loading-screen {
-      position:fixed; inset:0;
-      display:flex; flex-direction:column;
-      align-items:center; justify-content:center;
-      background: var(--ink);
-      z-index:9990;
-      transition:opacity 0.9s var(--ease), visibility 0.9s;
-    }
-    #loading-screen.hidden { opacity:0; visibility:hidden; pointer-events:none; }
 
     .loader-logo {
       font-family:'DM Serif Display', serif;
@@ -1156,20 +1146,6 @@
       text-transform:uppercase; letter-spacing:1.5px;
       color:var(--muted-light); margin-bottom:8px;
     }
-    .exec-progress-bar-wrap {
-      height:3px;
-      background:var(--border);
-      border-radius:100px; overflow:hidden;
-    }
-    .exec-progress-bar-fill {
-      height:100%; width:0%;
-      background:linear-gradient(90deg, var(--blue), var(--blue-glow));
-      border-radius:100px;
-      transition:width 0.9s var(--ease);
-    }
-    .exec-role.role-founding .exec-progress-bar-fill {
-      background:linear-gradient(90deg, var(--gold), var(--gold-light));
-    }
 
     /* Key metric strip */
     .exec-metric-strip {
@@ -1221,12 +1197,19 @@
       .exec-achievement-badges { justify-content:flex-start; }
     }
     @media (max-width:768px) {
+      .exec-timeline-wrapper { overflow-x:hidden; }
       .exec-timeline-spine { display:none; }
       .exec-role {
         grid-template-columns:1fr;
       }
+      .exec-role-left {
+        display:block;
+        text-align:left;
+        padding:0 0 16px;
+      }
       .exec-role-node { display:none; }
-      .exec-role-card { margin-left:0; }
+      .exec-role-card { margin-left:0; max-width:100%; }
+      .exec-card-header { word-break:break-word; }
       .exec-impact-panels { grid-template-columns:1fr; }
       .exec-impact-panel:not(:last-child) { border-right:none; border-bottom:1px solid var(--border); }
       .exec-metric-strip { flex-wrap:wrap; }
@@ -1390,6 +1373,7 @@
     }
     .testimonial-author-name { font-size:13px; font-weight:700; color:var(--text); }
     .testimonial-author-role { font-size:11.5px; color:var(--muted); }
+    .testimonial-author-note { font-size:10px; color:var(--muted-light); margin-top:2px; font-style:italic; }
 
     /* ── CASE STUDIES ────────────────────────────────────── */
     .sig-impact-intro { max-width:640px; margin-bottom:72px; }
@@ -1947,6 +1931,118 @@
     }
     .event-modal-close:hover { background:rgba(255,255,255,0.22); transform:rotate(90deg); }
 
+    /* ── Media & Community Presence (social showcase) ───────
+       Nested inside the Event Hosting pfc-divider, sits directly
+       below the video showcase grid. Mirrors existing glass tokens. */
+    .social-presence-block { margin-top:36px; }
+    .social-presence-block .pfc-divider-label { margin-bottom:10px; }
+    .social-presence-title {
+      font-family:'DM Serif Display', serif;
+      font-size:23px; font-weight:400;
+      color:var(--text);
+      line-height:1.3;
+      margin-bottom:10px;
+    }
+    .social-presence-sub {
+      font-size:14.5px; color:var(--muted);
+      line-height:1.75;
+      max-width:620px;
+      margin-bottom:26px;
+    }
+    .social-presence-grid {
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:22px;
+    }
+    .social-card {
+      position:relative;
+      display:flex;
+      align-items:center;
+      gap:16px;
+      padding:20px 22px;
+      border-radius:var(--r-md);
+      background:var(--glass);
+      backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+      border:1px solid var(--border);
+      box-shadow:var(--sh-sm);
+      text-decoration:none;
+      overflow:hidden;
+      isolation:isolate;
+      transition:transform var(--t-med) var(--ease), box-shadow var(--t-med) var(--ease), border-color var(--t-med) var(--ease);
+    }
+    body.dark .social-card { background:rgba(15,23,42,0.72); border-color:var(--border); }
+    .social-card-glow {
+      position:absolute; inset:-40%;
+      z-index:-1;
+      opacity:0;
+      filter:blur(28px);
+      transition:opacity var(--t-slow) var(--ease);
+      animation:socialGlowPulse 3.6s ease-in-out infinite;
+    }
+    .social-card-tiktok .social-card-glow { background:radial-gradient(circle, rgba(37,99,235,0.30), transparent 65%); }
+    .social-card-facebook .social-card-glow { background:radial-gradient(circle, rgba(37,99,235,0.30), rgba(201,168,76,0.12) 55%, transparent 70%); }
+    @keyframes socialGlowPulse {
+      0%, 100% { opacity:0.35; transform:scale(0.96); }
+      50% { opacity:0.6; transform:scale(1.04); }
+    }
+    .social-card:hover {
+      transform:translateY(-5px);
+      box-shadow:var(--sh-md);
+      border-color:var(--border-strong);
+    }
+    .social-card:hover .social-card-glow { opacity:1; }
+    .social-icon {
+      flex-shrink:0;
+      width:50px; height:50px;
+      border-radius:var(--r-sm);
+      display:flex; align-items:center; justify-content:center;
+      color:#fff;
+      position:relative; z-index:1;
+      transition:transform var(--t-med) var(--ease);
+    }
+    .social-icon svg { width:24px; height:24px; }
+    .social-icon-tiktok { background:linear-gradient(135deg, #1E2D4A, #080D1A); }
+    .social-icon-facebook { background:linear-gradient(135deg, var(--blue), #1D4ED8); }
+    .social-card:hover .social-icon { transform:scale(1.08) rotate(-4deg); }
+    .social-card-text {
+      display:flex; flex-direction:column; gap:3px;
+      position:relative; z-index:1;
+      min-width:0;
+    }
+    .social-platform {
+      font-size:15.5px; font-weight:700;
+      color:var(--text);
+      letter-spacing:0.2px;
+    }
+    .social-handle {
+      font-size:13px; color:var(--muted);
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .social-arrow {
+      margin-left:auto;
+      flex-shrink:0;
+      width:32px; height:32px;
+      border-radius:50%;
+      border:1px solid var(--border);
+      display:flex; align-items:center; justify-content:center;
+      color:var(--muted-light);
+      position:relative; z-index:1;
+      transition:transform var(--t-med) var(--ease), border-color var(--t-med) var(--ease), color var(--t-med) var(--ease);
+    }
+    .social-arrow svg { width:14px; height:14px; }
+    .social-card:hover .social-arrow {
+      transform:translate(3px,-3px);
+      border-color:var(--gold);
+      color:var(--gold);
+    }
+    @media (max-width:760px) {
+      .social-presence-grid { grid-template-columns:1fr; gap:16px; }
+      .social-presence-title { font-size:20px; }
+    }
+    @media (prefers-reduced-motion:reduce) {
+      .social-card-glow { animation:none; }
+    }
+
     /* ═══════════════════════════════════════════════════════
        EMOTIONAL PSYCHOLOGY & TEACHING METHODOLOGY — Premium Section
     ═══════════════════════════════════════════════════════ */
@@ -2272,6 +2368,122 @@
     @media (max-width: 480px) {
       .bza-achieve-grid { grid-template-columns:1fr; }
     }
+
+    /* ═══════════════════════════════════════════════════════
+       PREMIUM FEATURE CARD WRAPPER
+       (mirrors .exec-role-card glassmorphism recipe from the
+       Executive Career Timeline / Mental Health Professional card)
+    ═══════════════════════════════════════════════════════ */
+    .pfc {
+      background:var(--glass);
+      backdrop-filter:blur(28px); -webkit-backdrop-filter:blur(28px);
+      border:1px solid var(--border);
+      border-radius:var(--r-xl);
+      overflow:hidden;
+      position:relative;
+      box-shadow:var(--sh-sm);
+      transition:transform var(--t-med) var(--ease), box-shadow var(--t-med) var(--ease), border-color var(--t-med) var(--ease);
+      padding:44px 44px 40px;
+    }
+    body.dark .pfc { background:rgba(15,23,42,0.78); border-color:rgba(51,65,85,0.40); }
+
+    /* Top accent stripe */
+    .pfc::before {
+      content:'';
+      position:absolute; top:0; left:0; right:0;
+      height:3px;
+      background:var(--pfc-stripe, linear-gradient(90deg, var(--blue), var(--blue-glow)));
+      transform:scaleX(0); transform-origin:left;
+      transition:transform 0.5s var(--ease);
+    }
+    .pfc:hover::before { transform:scaleX(1); }
+
+    /* Ambient corner glow */
+    .pfc::after {
+      content:'';
+      position:absolute; bottom:-70px; right:-70px;
+      width:240px; height:240px;
+      background:radial-gradient(circle, var(--pfc-orb, rgba(37,99,235,0.06)) 0%, transparent 70%);
+      border-radius:50%;
+      pointer-events:none;
+      transition:all 0.6s ease;
+    }
+    .pfc:hover::after { bottom:-30px; right:-30px; width:320px; height:320px; }
+
+    .pfc:hover {
+      transform:translateY(-4px);
+      box-shadow:var(--sh-lg), 0 0 0 1px rgba(37,99,235,0.12);
+      border-color:rgba(37,99,235,0.20);
+    }
+    .pfc.pfc-gold:hover {
+      box-shadow:var(--sh-lg), 0 0 0 1px rgba(201,168,76,0.18);
+      border-color:rgba(201,168,76,0.22);
+    }
+
+    .pfc .section-label,
+    .pfc .section-h2,
+    .pfc .section-sub,
+    .pfc .psy-intro-text,
+    .pfc .bza-intro-text {
+      position:relative; z-index:1;
+    }
+    .pfc .section-sub { margin-bottom:8px; }
+    .pfc .psy-intro-text,
+    .pfc .bza-intro-text { margin-bottom:0; }
+
+    /* Divider used to separate text block / video block / achievements block */
+    .pfc-divider {
+      background:var(--glass);
+      backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+      border:1px solid var(--border);
+      border-radius:var(--r-lg);
+      padding:32px 30px 30px;
+      box-shadow:var(--sh-sm);
+      margin-top:24px;
+      position:relative; z-index:1;
+      transition:box-shadow var(--t-med) var(--ease), border-color var(--t-med) var(--ease);
+    }
+    body.dark .pfc-divider { background:rgba(15,23,42,0.72); border-color:var(--border); }
+    .pfc-divider:hover { box-shadow:var(--sh-md); border-color:var(--border-strong); }
+    .pfc-divider-label {
+      font-size:9.5px; font-weight:800;
+      text-transform:uppercase; letter-spacing:1.5px;
+      color:var(--muted-light); margin-bottom:18px;
+      display:block;
+    }
+    .pfc-divider .event-video-grid,
+    .pfc-divider .bza-video-grid,
+    .pfc-divider .bza-achieve-grid { margin-bottom:0; }
+    .pfc > .pfc-divider:first-of-type { margin-top:32px; }
+
+    /* Boxed header/intro content — matches .event-block-card visual weight */
+    .pfc-intro-box {
+      background:var(--glass);
+      backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+      border:1px solid var(--border);
+      border-radius:var(--r-lg);
+      padding:32px 34px 30px;
+      box-shadow:var(--sh-sm);
+      position:relative; z-index:1;
+      transition:box-shadow var(--t-med) var(--ease), border-color var(--t-med) var(--ease);
+    }
+    body.dark .pfc-intro-box { background:rgba(15,23,42,0.72); border-color:var(--border); }
+    .pfc-intro-box:hover { box-shadow:var(--sh-md); border-color:var(--border-strong); }
+    .pfc-intro-box .section-label { margin-bottom:12px; }
+    .pfc-intro-box .section-h2 { margin-bottom:12px; }
+    .pfc-intro-box .section-sub { margin-bottom:14px; max-width:none; }
+    .pfc-intro-box .psy-intro-text,
+    .pfc-intro-box .bza-intro-text { margin-bottom:0; max-width:none; }
+    .pfc .pfc-intro-box + .pfc-divider { margin-top:24px; }
+
+    @media (max-width: 760px) {
+      .pfc-intro-box { padding:26px 22px 24px; }
+    }
+
+    @media (max-width: 760px) {
+      .pfc { padding:32px 24px 28px; }
+      .pfc-divider { margin-top:20px; padding:24px 20px 22px; }
+    }
   </style>
 </head>
 <body>
@@ -2284,13 +2496,6 @@
 
 <!-- Progress bar -->
 <div id="progress-bar"></div>
-
-<!-- Loading Screen -->
-<div id="loading-screen">
-  <div class="loader-logo">Z<span>M</span></div>
-  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
-  <div class="loader-label">Executive Portfolio</div>
-</div>
 
 <!-- Header -->
 <header id="header">
@@ -2308,7 +2513,7 @@
       </ul>
     </nav>
     <div class="header-actions">
-      <button class="theme-btn" id="theme-btn" aria-label="Toggle dark mode">🌙</button>
+      <button class="theme-btn" id="theme-btn" aria-label="Toggle dark mode"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
       <a href="#contact" class="nav-cta">Hire Me</a>
     </div>
   </div>
@@ -2327,14 +2532,14 @@
       <div class="hero-text">
         <div class="hero-eyebrow">
           <span class="eyebrow-dot"></span>
-          <span class="eyebrow-text">CEO · Mental Health Leader · Education Innovator</span>
+          <span class="eyebrow-text">International Education Consultant &amp; Clinical Mental Health Professional</span>
         </div>
         <h1 class="hero-h1">
           Transforming lives through<br>
           <em>clinical leadership</em><br>
           and global education
         </h1>
-        <p class="hero-sub">I combine mental health expertise, executive leadership, and international education innovation — delivering measurable, human-centered outcomes across Australia and global markets.</p>
+        <p class="hero-sub">Bridging South Asia and Australia — I combine clinical mental health expertise with executive leadership in international education, delivering measurable, human-centered outcomes across both regions.</p>
         <div class="hero-actions">
           <a href="#contact" class="btn-primary">Start a Conversation →</a>
           <a href="mailto:zakmehmood3@gmail.com" class="btn-ghost">Email Directly</a>
@@ -2353,8 +2558,8 @@
             <div class="hero-stat-label">Programs Delivered</div>
           </div>
           <div class="hero-stat">
-            <div class="hero-stat-num" data-count="3">3</div>
-            <div class="hero-stat-label">Mental Health Certs</div>
+            <div class="hero-stat-num" data-count="2">2</div>
+            <div class="hero-stat-label">Continents</div>
           </div>
         </div>
         <div class="scroll-hint">
@@ -2373,7 +2578,7 @@
           <div class="badge-sub">Across 2 continents</div>
         </div>
         <div class="photo-badge-2">
-          <div class="badge-icon">🌍</div>
+          <div class="badge-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></div>
           <div class="badge-2-label">AU · PK</div>
         </div>
       </div>
@@ -2419,37 +2624,37 @@
     <p class="section-sub">The headline outcomes of a career spent at the intersection of clinical care, education, and enterprise.</p>
     <div class="highlights-grid">
       <div class="highlight-card reveal">
-        <div class="highlight-icon">🎓</div>
+        <div class="highlight-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></div>
         <div class="highlight-number counter" data-target="500">0</div>
         <div class="highlight-title">500+ Students Guided Toward International Education</div>
         <div class="highlight-desc">Advised and placed students across global university pathways — from application strategy to enrollment and settlement.</div>
       </div>
       <div class="highlight-card reveal reveal-delay-1">
-        <div class="highlight-icon">🧠</div>
+        <div class="highlight-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 3a2.5 2.5 0 0 0-2.45 2.04A3 3 0 0 0 5 7.8 3 3 0 0 0 4 13a3 3 0 0 0 1.5 5.2A2.5 2.5 0 0 0 8 21a2.5 2.5 0 0 0 2-1V5.5A2.5 2.5 0 0 0 9.5 3z"/><path d="M14.5 3a2.5 2.5 0 0 1 2.45 2.04A3 3 0 0 1 19 7.8 3 3 0 0 1 20 13a3 3 0 0 1-1.5 5.2A2.5 2.5 0 0 1 16 21a2.5 2.5 0 0 1-2-1V5.5A2.5 2.5 0 0 1 14.5 3z"/></svg></div>
         <div class="highlight-number">3+ Yrs</div>
         <div class="highlight-title">Mental Health Support Across South Australia</div>
         <div class="highlight-desc">Delivered frontline psychosocial care and recovery-oriented support across complex community caseloads in Adelaide.</div>
       </div>
       <div class="highlight-card reveal reveal-delay-2">
-        <div class="highlight-icon">💼</div>
+        <div class="highlight-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg></div>
         <div class="highlight-number">5+ Yrs</div>
         <div class="highlight-title">CEO Leadership Experience</div>
         <div class="highlight-desc">Founded and scaled international consultancy and digital training ventures, leading cross-functional teams.</div>
       </div>
       <div class="highlight-card reveal reveal-delay-3">
-        <div class="highlight-icon">🌐</div>
+        <div class="highlight-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.9 15.8 7.1M8.2 13.1l7.6 3.8"/></svg></div>
         <div class="highlight-number">Multi</div>
         <div class="highlight-title">International University Partnerships</div>
         <div class="highlight-desc">Built and maintained institutional relationships spanning multiple countries and education systems.</div>
       </div>
       <div class="highlight-card reveal reveal-delay-4">
-        <div class="highlight-icon">🤝</div>
+        <div class="highlight-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11 12 5.5 6.5a1.5 1.5 0 0 0-2.5 1v1.7L7 13"/><path d="M13 12l5.5 5.5a1.5 1.5 0 0 0 2.5-1v-1.7L17 11"/><path d="M7 13l3 3a1.5 1.5 0 0 0 2.1 0 1.5 1.5 0 0 0 0-2.1L9 11"/><path d="M17 11l-3-3a1.5 1.5 0 0 0-2.1 0"/></svg></div>
         <div class="highlight-number">100s</div>
         <div class="highlight-title">Psychosocial Recovery Support Programs</div>
         <div class="highlight-desc">Coordinated multidisciplinary recovery pathways and crisis intervention for individuals navigating recovery.</div>
       </div>
       <div class="highlight-card reveal reveal-delay-5">
-        <div class="highlight-icon">🚀</div>
+        <div class="highlight-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c2.5 1.5 4 4.5 4 8 0 2-1 4-1 4l-3 3-3-3s-1-2-1-4c0-3.5 1.5-6.5 4-8z"/><circle cx="12" cy="9" r="1.5"/><path d="M9 14l-3 1 1-3M15 14l3 1-1-3"/></svg></div>
         <div class="highlight-number counter" data-target="20">0</div>
         <div class="highlight-title">Digital Entrepreneurship &amp; Business Mentoring</div>
         <div class="highlight-desc">Designed and delivered training programs spanning e-commerce, business setup, and digital enterprise.</div>
@@ -2466,7 +2671,7 @@
     <p class="section-sub">A practitioner-leader who moves between the clinical and the commercial without compromise.</p>
     <div class="overview-grid">
       <div class="glass-card reveal">
-        <p><strong>I am an accomplished executive and mental health professional</strong> who bridges clinical expertise with international business leadership. My career is defined by cross-cultural competence, measurable outcomes, and the design of resilient programs that scale impact.</p>
+        <p><strong>I am, first and foremost, an International Education Consultant and Clinical Mental Health Professional</strong> — bridging South Asia and Australia through cross-border education leadership and Australian-trained psychosocial practice. Around this dual foundation, I've also built supporting ventures and additional expertise in English language and IELTS training, public event hosting, and digital entrepreneurship training (Amazon FBA, Shopify) — each extending, rather than competing with, the same core mission of cross-cultural impact and measurable outcomes.</p>
         <p>My foundation is clinical: I hold a Graduate Certificate and Certificate IV in Mental Health from Australian institutions. I spent 3+ years delivering person-centered psychosocial support in Adelaide, managing complex caseloads, and coordinating multidisciplinary recovery pathways. I understand the nuances of trauma-informed care, human resilience, and therapeutic alliance.</p>
         <p>My evolution is strategic: I transitioned to founding and leading international education consultancy and digital training enterprises. I've directed university partnerships, scaled English language programs, mentored 500+ students across continents, and built ventures that serve markets across Pakistan and internationally. I operate with operational discipline, financial acumen, and accountability for outcomes.</p>
         <h3>What I bring</h3>
@@ -2481,22 +2686,22 @@
       </div>
       <div class="overview-sidebar">
         <div class="info-card reveal reveal-delay-1">
-          <div class="info-card-icon">🏥</div>
+          <div class="info-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 8.5c0 4.5-8.5 10.5-8.5 10.5S3.5 13 3.5 8.5a4.5 4.5 0 0 1 8.5-2 4.5 4.5 0 0 1 8.5 2z"/><path d="M4 12h2.5l1.5-3 2 5 1.5-3H20"/></svg></div>
           <h4>Clinical Background</h4>
           <p>Graduate Certificate in Mental Health. Certificate IV in Mental Health. NDIS certified. 3+ years frontline psychosocial practice in Australia.</p>
         </div>
         <div class="info-card reveal reveal-delay-2">
-          <div class="info-card-icon">💼</div>
+          <div class="info-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg></div>
           <h4>Executive Experience</h4>
           <p>CEO of international student consultancy and digital training ventures. Built global partnerships. Scaled operations across markets.</p>
         </div>
         <div class="info-card reveal reveal-delay-3">
-          <div class="info-card-icon">🌍</div>
+          <div class="info-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></div>
           <h4>Global Footprint</h4>
           <p>Worked across Australia and Pakistan. Managed international university partnerships. Operated in competitive global education markets.</p>
         </div>
         <div class="info-card reveal reveal-delay-4">
-          <div class="info-card-icon">📊</div>
+          <div class="info-card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7"/><path d="M3 20h18"/></svg></div>
           <h4>Track Record</h4>
           <p>500+ students guided. 20+ programs designed and delivered. Multiple institutional partnerships established.</p>
         </div>
@@ -2509,46 +2714,82 @@
 <section class="section" id="event-hosting" style="position:relative;overflow:hidden;">
   <div class="section-orb" data-parallax="0.02" style="width:520px;height:520px;background:radial-gradient(circle,rgba(201,168,76,0.07),transparent);top:-120px;right:-140px;"></div>
   <div class="container" style="position:relative;z-index:1;">
-    <div class="section-label">Public Engagement</div>
-    <h2 class="section-h2">Event Hosting &amp; Stage Moderation</h2>
-    <p class="section-sub">Hosting prestigious institutional events, educational ceremonies, conferences, seminars, public engagements and fitness community programs with confidence, professionalism and audience impact.</p>
+    <div class="pfc pfc-gold reveal" style="--pfc-stripe:linear-gradient(90deg,var(--gold),var(--gold-light)); --pfc-orb:rgba(201,168,76,0.08);">
+      <div class="section-label">Public Engagement</div>
+      <h2 class="section-h2">Event Hosting &amp; Stage Moderation</h2>
+      <p class="section-sub">Hosting large-scale sporting events, cricket tournaments, public engagements and community programs with confidence, professionalism and dynamic audience interaction. Delivering memorable event experiences through impactful stage presence, crowd engagement and seamless event coordination.</p>
 
-    <div class="event-hosting-grid">
-      <div class="event-block-card reveal">
-        <div class="event-block-icon">🎓</div>
-        <h3>Educational &amp; Institutional Event Hosting</h3>
-        <p>Anchoring convocations, academic ceremonies, conferences and seminars with polished stage presence, precise pacing and command of institutional protocol.</p>
+      <div class="event-hosting-grid">
+        <div class="event-block-card reveal">
+          <div class="event-block-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0V4z"/><path d="M8 5H5a3 3 0 0 0 3 4M16 5h3a3 3 0 0 1-3 4"/><path d="M12 13v3M9 20h6M10 16h4v4h-4z"/></svg></div>
+          <h3>TPL Cricket League Hosting &amp; Audience Engagement</h3>
+          <p>Leading TPL Cricket League events with energetic crowd engagement, professional stage management and impactful event delivery. Creating exciting match-day experiences through confident hosting, live audience interaction and seamless coordination of event activities.</p>
+        </div>
+        <div class="event-block-card reveal reveal-delay-1">
+          <div class="event-block-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="1"/><path d="M8 20h8M12 16v4"/><path d="M7 9l3 2-3 2M13 13h4"/></svg></div>
+          <h3>Fitness Hub &amp; Community Event Hosting</h3>
+          <p>Energizing fitness community programs, wellness launches and public engagements with charisma, motivational delivery and authentic audience connection.</p>
+        </div>
       </div>
-      <div class="event-block-card reveal reveal-delay-1">
-        <div class="event-block-icon">🏋️</div>
-        <h3>Fitness Hub &amp; Community Event Hosting</h3>
-        <p>Energizing fitness community programs, wellness launches and public engagements with charisma, motivational delivery and authentic audience connection.</p>
-      </div>
-    </div>
 
-    <div class="event-video-grid">
-      <div class="event-video-card reveal" data-video="EVENT_VIDEO_2.mp4" tabindex="0" role="button" aria-label="Play Educational &amp; Institutional Event Hosting video">
-        <video class="event-video-thumb" muted playsinline preload="metadata" src="EVENT_VIDEO_2.mp4#t=0.4"></video>
-        <div class="event-video-scrim"></div>
-        <div class="event-video-glow"></div>
-        <div class="event-video-playbtn" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <div class="event-video-caption">
-          <span class="ev-label">Showcase</span>
-          <div class="ev-title">Educational &amp; Institutional Hosting</div>
+      <div class="pfc-divider">
+        <span class="pfc-divider-label">Video Showcase</span>
+        <div class="event-video-grid">
+          <div class="event-video-card reveal" data-video="EVENT_VIDEO_2.mp4" tabindex="0" role="button" aria-label="Play TPL Cricket League Hosting &amp; Audience Engagement video">
+            <video class="event-video-thumb" muted playsinline preload="metadata" src="EVENT_VIDEO_2.mp4#t=0.4"></video>
+            <div class="event-video-scrim"></div>
+            <div class="event-video-glow"></div>
+            <div class="event-video-playbtn" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+            <div class="event-video-caption">
+              <span class="ev-label">Showcase</span>
+              <div class="ev-title">TPL Cricket League Hosting &amp; Audience Engagement</div>
+            </div>
+          </div>
+          <div class="event-video-card reveal reveal-delay-1" data-video="EVENT_VIDEO_1.mp4" tabindex="0" role="button" aria-label="Play Fitness Hub &amp; Community Event Hosting video">
+            <video class="event-video-thumb" muted playsinline preload="metadata" src="EVENT_VIDEO_1.mp4#t=0.4"></video>
+            <div class="event-video-scrim"></div>
+            <div class="event-video-glow"></div>
+            <div class="event-video-playbtn" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+            <div class="event-video-caption">
+              <span class="ev-label">Showcase</span>
+              <div class="ev-title">Fitness Hub &amp; Community Hosting</div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="event-video-card reveal reveal-delay-1" data-video="EVENT_VIDEO_1.mp4" tabindex="0" role="button" aria-label="Play Fitness Hub &amp; Community Event Hosting video">
-        <video class="event-video-thumb" muted playsinline preload="metadata" src="EVENT_VIDEO_1.mp4#t=0.4"></video>
-        <div class="event-video-scrim"></div>
-        <div class="event-video-glow"></div>
-        <div class="event-video-playbtn" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <div class="event-video-caption">
-          <span class="ev-label">Showcase</span>
-          <div class="ev-title">Fitness Hub &amp; Community Hosting</div>
+
+      <!-- Media & Community Presence -->
+      <div class="pfc-divider social-presence-block">
+        <span class="pfc-divider-label">Online Presence</span>
+        <h3 class="social-presence-title">Media &amp; Community Presence</h3>
+        <p class="social-presence-sub">Follow event highlights, educational content, professional insights and community engagement activities across my official platforms.</p>
+        <div class="social-presence-grid">
+          <a class="social-card social-card-tiktok reveal" href="https://www.tiktok.com/@bluezoneconsultant?_r=1&amp;_t=ZS-97MxgbK30tk" target="_blank" rel="noopener noreferrer" aria-label="Visit BlueZone Consultant on TikTok (opens in a new tab)">
+            <span class="social-card-glow" aria-hidden="true"></span>
+            <span class="social-icon social-icon-tiktok" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82c-.9-.78-1.46-1.92-1.52-3.19V2.4h-3.1v13.93c0 1.42-1.15 2.58-2.58 2.58a2.58 2.58 0 0 1-2.58-2.58c0-1.43 1.15-2.58 2.58-2.58.27 0 .53.04.78.12V11.7a5.62 5.62 0 0 0-.78-.05A5.65 5.65 0 0 0 3.8 17.3a5.65 5.65 0 0 0 5.6 5.65 5.65 5.65 0 0 0 5.6-5.65V9.1a7.3 7.3 0 0 0 4.2 1.36V7.36a4.27 4.27 0 0 1-2.6-1.54z"/></svg>
+            </span>
+            <span class="social-card-text">
+              <span class="social-platform">TikTok</span>
+              <span class="social-handle">BlueZone Consultant</span>
+            </span>
+            <span class="social-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></span>
+          </a>
+          <a class="social-card social-card-facebook reveal reveal-delay-1" href="https://www.facebook.com/share/1BgaRRgi7X/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Visit BlueZone Consultant on Facebook (opens in a new tab)">
+            <span class="social-card-glow" aria-hidden="true"></span>
+            <span class="social-icon social-icon-facebook" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12.06C22 6.5 17.52 2 11.94 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.79c0-2.5 1.49-3.9 3.78-3.9 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.78-1.63 1.57v1.88h2.78l-.45 2.91h-2.33V22c4.78-.76 8.44-4.92 8.44-9.94z"/></svg>
+            </span>
+            <span class="social-card-text">
+              <span class="social-platform">Facebook</span>
+              <span class="social-handle">BlueZone Consultant</span>
+            </span>
+            <span class="social-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></span>
+          </a>
         </div>
       </div>
     </div>
@@ -2567,54 +2808,64 @@
 <section class="section" id="psychology-teaching" style="position:relative;overflow:hidden;">
   <div class="section-orb" data-parallax="0.02" style="width:520px;height:520px;background:radial-gradient(circle,rgba(124,58,237,0.06),transparent);top:-100px;left:-140px;"></div>
   <div class="container" style="position:relative;z-index:1;">
-    <div class="section-label">Education &amp; Training</div>
-    <h2 class="section-h2">Emotional Psychology &amp; Teaching Methodology</h2>
-    <p class="section-sub">Training educators, institutional staff and students through emotional psychology, learning science, communication excellence and modern teaching methodologies.</p>
-    <p class="psy-intro-text">Delivered professional development sessions, teacher trainings, educational workshops and student engagement programs across schools, colleges and educational institutions, focusing on emotional intelligence, classroom effectiveness, communication skills and transformational learning experiences.</p>
+    <div class="pfc reveal" style="--pfc-stripe:linear-gradient(90deg,#7C3AED,#A78BFA); --pfc-orb:rgba(124,58,237,0.08);">
+      <div class="pfc-intro-box reveal">
+        <div class="section-label">Education &amp; Training</div>
+        <h2 class="section-h2">Emotional Psychology &amp; Teaching Methodology</h2>
+        <p class="section-sub">Training educators, institutional staff and students through emotional psychology, learning science, communication excellence and modern teaching methodologies.</p>
+        <p class="psy-intro-text">Delivered professional development sessions, teacher trainings, educational workshops and student engagement programs across schools, colleges and educational institutions, focusing on emotional intelligence, classroom effectiveness, communication skills and transformational learning experiences.</p>
+      </div>
 
-    <div class="psy-video-grid">
-      <div class="psy-video-card reveal" data-video="PSYCHOLOGY_VIDEO_1.mp4" tabindex="0" role="button" aria-label="Play Faculty Development &amp; Staff Training video">
-        <video class="psy-video-thumb" muted playsinline preload="metadata" src="PSYCHOLOGY_VIDEO_1.mp4#t=0.4"></video>
-        <div class="psy-video-scrim"></div>
-        <div class="psy-video-glow"></div>
-        <div class="psy-video-playbtn" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <div class="psy-video-caption">
-          <span class="psy-label">Showcase</span>
-          <div class="psy-title">Faculty Development &amp; Staff Training</div>
+      <div class="pfc-divider">
+        <span class="pfc-divider-label">Video Showcase</span>
+        <div class="psy-video-grid">
+          <div class="psy-video-card reveal" data-video="PSYCHOLOGY_VIDEO_1.mp4" tabindex="0" role="button" aria-label="Play Faculty Development &amp; Staff Training video">
+            <video class="psy-video-thumb" muted playsinline preload="metadata" src="PSYCHOLOGY_VIDEO_1.mp4#t=0.4"></video>
+            <div class="psy-video-scrim"></div>
+            <div class="psy-video-glow"></div>
+            <div class="psy-video-playbtn" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+            <div class="psy-video-caption">
+              <span class="psy-label">Showcase</span>
+              <div class="psy-title">Faculty Development &amp; Staff Training</div>
+            </div>
+          </div>
+          <div class="psy-video-card reveal reveal-delay-1" data-video="PSYCHOLOGY_VIDEO_2.mp4" tabindex="0" role="button" aria-label="Play Student Engagement &amp; Learning Excellence video">
+            <video class="psy-video-thumb" muted playsinline preload="metadata" src="PSYCHOLOGY_VIDEO_2.mp4#t=0.4"></video>
+            <div class="psy-video-scrim"></div>
+            <div class="psy-video-glow"></div>
+            <div class="psy-video-playbtn" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+            <div class="psy-video-caption">
+              <span class="psy-label">Showcase</span>
+              <div class="psy-title">Student Engagement &amp; Learning Excellence</div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="psy-video-card reveal reveal-delay-1" data-video="PSYCHOLOGY_VIDEO_2.mp4" tabindex="0" role="button" aria-label="Play Student Engagement &amp; Learning Excellence video">
-        <video class="psy-video-thumb" muted playsinline preload="metadata" src="PSYCHOLOGY_VIDEO_2.mp4#t=0.4"></video>
-        <div class="psy-video-scrim"></div>
-        <div class="psy-video-glow"></div>
-        <div class="psy-video-playbtn" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <div class="psy-video-caption">
-          <span class="psy-label">Showcase</span>
-          <div class="psy-title">Student Engagement &amp; Learning Excellence</div>
-        </div>
-      </div>
-    </div>
 
-    <div class="impact-grid">
-      <div class="impact-card reveal">
-        <div class="impact-num counter" data-target="50">0</div>
-        <div class="impact-label">Training Sessions</div>
-      </div>
-      <div class="impact-card reveal reveal-delay-1">
-        <div class="impact-num counter" data-target="1000">0</div>
-        <div class="impact-label">Students Reached</div>
-      </div>
-      <div class="impact-card reveal reveal-delay-2">
-        <div class="impact-num counter" data-target="100">0</div>
-        <div class="impact-label">Educators Trained</div>
-      </div>
-      <div class="impact-card reveal reveal-delay-3">
-        <div class="impact-num counter" data-target="12">0</div>
-        <div class="impact-label">Institutions Served</div>
+      <div class="pfc-divider">
+        <span class="pfc-divider-label">Key Metrics</span>
+        <div class="impact-grid">
+          <div class="impact-card reveal">
+            <div class="impact-num counter" data-target="50">0</div>
+            <div class="impact-label">Training Sessions</div>
+          </div>
+          <div class="impact-card reveal reveal-delay-1">
+            <div class="impact-num counter" data-target="1000">0</div>
+            <div class="impact-label">Students Reached</div>
+          </div>
+          <div class="impact-card reveal reveal-delay-2">
+            <div class="impact-num counter" data-target="100">0</div>
+            <div class="impact-label">Educators Trained</div>
+          </div>
+          <div class="impact-card reveal reveal-delay-3">
+            <div class="impact-num counter" data-target="12">0</div>
+            <div class="impact-label">Institutions Served</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -2632,54 +2883,64 @@
 <section class="section" id="language-career" style="position:relative;overflow:hidden;">
   <div class="section-orb" data-parallax="0.02" style="width:520px;height:520px;background:radial-gradient(circle,rgba(201,168,76,0.06),transparent);top:-110px;right:-130px;"></div>
   <div class="container" style="position:relative;z-index:1;">
-    <div class="section-label">BlueZone Academy</div>
-    <h2 class="section-h2">Language Training &amp; Career Counselling</h2>
-    <p class="section-sub">Empowering students and professionals through IELTS, PTE, Duolingo preparation, career guidance and academic mentoring.</p>
-    <p class="bza-intro-text">Providing language proficiency training, study abroad guidance, academic mentoring and career counselling through BlueZone Academy. Supporting students in achieving international education and professional development goals.</p>
+    <div class="pfc pfc-gold reveal" style="--pfc-stripe:linear-gradient(90deg,var(--gold),var(--gold-light)); --pfc-orb:rgba(201,168,76,0.08);">
+      <div class="pfc-intro-box reveal">
+        <div class="section-label">BlueZone Academy</div>
+        <h2 class="section-h2">Language Training &amp; Career Counselling</h2>
+        <p class="section-sub">Empowering students and professionals through IELTS, PTE, Duolingo preparation, career guidance and academic mentoring.</p>
+        <p class="bza-intro-text">Providing language proficiency training, study abroad guidance, academic mentoring and career counselling through BlueZone Academy. Supporting students in achieving international education and professional development goals.</p>
+      </div>
 
-    <div class="bza-video-grid">
-      <div class="bza-video-card reveal" data-video="BLUEZONE_VIDEO_1.mp4" tabindex="0" role="button" aria-label="Play IELTS, PTE, Duolingo Training video">
-        <video class="bza-video-thumb" muted playsinline preload="metadata" src="BLUEZONE_VIDEO_1.mp4#t=0.4"></video>
-        <div class="bza-video-scrim"></div>
-        <div class="bza-video-glow"></div>
-        <div class="bza-video-playbtn" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <div class="bza-video-caption">
-          <span class="bza-label">Showcase</span>
-          <div class="bza-title">IELTS • PTE • Duolingo Training</div>
+      <div class="pfc-divider">
+        <span class="pfc-divider-label">Video Showcase</span>
+        <div class="bza-video-grid">
+          <div class="bza-video-card reveal" data-video="BLUEZONE_VIDEO_1.mp4" tabindex="0" role="button" aria-label="Play IELTS, PTE, Duolingo Training video">
+            <video class="bza-video-thumb" muted playsinline preload="metadata" src="BLUEZONE_VIDEO_1.mp4#t=0.4"></video>
+            <div class="bza-video-scrim"></div>
+            <div class="bza-video-glow"></div>
+            <div class="bza-video-playbtn" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+            <div class="bza-video-caption">
+              <span class="bza-label">Showcase</span>
+              <div class="bza-title">IELTS • PTE • Duolingo Training</div>
+            </div>
+          </div>
+          <div class="bza-video-card reveal reveal-delay-1" data-video="BLUEZONE_VIDEO_2.mp4" tabindex="0" role="button" aria-label="Play Career Counselling and Academic Mentoring video">
+            <video class="bza-video-thumb" muted playsinline preload="metadata" src="BLUEZONE_VIDEO_2.mp4#t=0.4"></video>
+            <div class="bza-video-scrim"></div>
+            <div class="bza-video-glow"></div>
+            <div class="bza-video-playbtn" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+            <div class="bza-video-caption">
+              <span class="bza-label">Showcase</span>
+              <div class="bza-title">Career Counselling &amp; Academic Mentoring</div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="bza-video-card reveal reveal-delay-1" data-video="BLUEZONE_VIDEO_2.mp4" tabindex="0" role="button" aria-label="Play Career Counselling and Academic Mentoring video">
-        <video class="bza-video-thumb" muted playsinline preload="metadata" src="BLUEZONE_VIDEO_2.mp4#t=0.4"></video>
-        <div class="bza-video-scrim"></div>
-        <div class="bza-video-glow"></div>
-        <div class="bza-video-playbtn" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <div class="bza-video-caption">
-          <span class="bza-label">Showcase</span>
-          <div class="bza-title">Career Counselling &amp; Academic Mentoring</div>
-        </div>
-      </div>
-    </div>
 
-    <div class="bza-achieve-grid">
-      <div class="bza-achieve-card reveal">
-        <div class="bza-achieve-title">IELTS / PTE / Duolingo</div>
-        <div class="bza-achieve-label">Language Excellence</div>
-      </div>
-      <div class="bza-achieve-card reveal reveal-delay-1">
-        <div class="bza-achieve-title">Study Abroad Guidance</div>
-        <div class="bza-achieve-label">Academic Success</div>
-      </div>
-      <div class="bza-achieve-card reveal reveal-delay-2">
-        <div class="bza-achieve-title">Career Mentoring</div>
-        <div class="bza-achieve-label">Professional Growth</div>
-      </div>
-      <div class="bza-achieve-card reveal reveal-delay-3">
-        <div class="bza-achieve-title">Student Development</div>
-        <div class="bza-achieve-label">Future Readiness</div>
+      <div class="pfc-divider">
+        <span class="pfc-divider-label">Key Achievements</span>
+        <div class="bza-achieve-grid">
+          <div class="bza-achieve-card reveal">
+            <div class="bza-achieve-title">IELTS / PTE / Duolingo</div>
+            <div class="bza-achieve-label">Language Excellence</div>
+          </div>
+          <div class="bza-achieve-card reveal reveal-delay-1">
+            <div class="bza-achieve-title">Study Abroad Guidance</div>
+            <div class="bza-achieve-label">Academic Success</div>
+          </div>
+          <div class="bza-achieve-card reveal reveal-delay-2">
+            <div class="bza-achieve-title">Career Mentoring</div>
+            <div class="bza-achieve-label">Professional Growth</div>
+          </div>
+          <div class="bza-achieve-card reveal reveal-delay-3">
+            <div class="bza-achieve-title">Student Development</div>
+            <div class="bza-achieve-label">Future Readiness</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -2747,7 +3008,7 @@
           <div class="exec-node-ring">
             <div class="exec-node-connector"></div>
           </div>
-          <div class="exec-node-icon">🏆</div>
+          <div class="exec-node-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0V4z"/><path d="M8 5H5a3 3 0 0 0 3 4M16 5h3a3 3 0 0 1-3 4"/><path d="M12 13v3M9 20h6M10 16h4v4h-4z"/></svg></div>
         </div>
 
         <!-- Right: Card -->
@@ -2756,7 +3017,7 @@
             <div class="exec-card-title-group">
               <div class="exec-role-name">Chief Executive Officer</div>
               <div class="exec-role-org">BlueZone Consultants &amp; Insight Digital</div>
-              <div class="exec-role-org-location">📍 Mansehra, Pakistan · International Operations</div>
+              <div class="exec-role-org-location"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-7.5 7-12a7 7 0 0 0-14 0c0 4.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg> Mansehra, Pakistan · International Operations</div>
             </div>
             <div class="exec-achievement-badges">
               <span class="exec-badge badge-ceo">CEO</span>
@@ -2809,14 +3070,6 @@
             </div>
           </div>
 
-          <!-- Progress indicator -->
-          <div class="exec-progress-track">
-            <div class="exec-progress-label">Career Progress Indicator</div>
-            <div class="exec-progress-bar-wrap">
-              <div class="exec-progress-bar-fill" data-target-width="92"></div>
-            </div>
-          </div>
-
           <!-- Key metrics strip -->
           <div class="exec-metric-strip">
             <div class="exec-metric-item">
@@ -2845,7 +3098,7 @@
         <div class="exec-role-left">
           <div class="exec-role-period">2018 — 2021</div>
           <div class="exec-role-duration">3 Years</div>
-          <div class="exec-role-milestone-badge milestone-clinical">🧠 Clinical Practice</div>
+          <div class="exec-role-milestone-badge milestone-clinical"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 3a2.5 2.5 0 0 0-2.45 2.04A3 3 0 0 0 5 7.8 3 3 0 0 0 4 13a3 3 0 0 0 1.5 5.2A2.5 2.5 0 0 0 8 21a2.5 2.5 0 0 0 2-1V5.5A2.5 2.5 0 0 0 9.5 3z"/><path d="M14.5 3a2.5 2.5 0 0 1 2.45 2.04A3 3 0 0 1 19 7.8 3 3 0 0 1 20 13a3 3 0 0 1-1.5 5.2A2.5 2.5 0 0 1 16 21a2.5 2.5 0 0 1-2-1V5.5A2.5 2.5 0 0 1 14.5 3z"/></svg> Clinical Practice</div>
         </div>
 
         <!-- Center: Node -->
@@ -2853,7 +3106,7 @@
           <div class="exec-node-ring">
             <div class="exec-node-connector"></div>
           </div>
-          <div class="exec-node-icon">🌟</div>
+          <div class="exec-node-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L12 17l-5.6 3.1 1.4-6.3L3 9.5l6.4-.6z"/></svg></div>
         </div>
 
         <!-- Right: Card -->
@@ -2862,7 +3115,7 @@
             <div class="exec-card-title-group">
               <div class="exec-role-name">Mental Health Support Worker</div>
               <div class="exec-role-org" style="color:var(--violet);">Uniting Communities South Australia</div>
-              <div class="exec-role-org-location">📍 Adelaide, South Australia · Community Services</div>
+              <div class="exec-role-org-location"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-7.5 7-12a7 7 0 0 0-14 0c0 4.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg> Adelaide, South Australia · Community Services</div>
             </div>
             <div class="exec-achievement-badges">
               <span class="exec-badge badge-clinical">Clinical</span>
@@ -2911,14 +3164,6 @@
                 <li>More culturally competent workforce through peer mentoring</li>
                 <li>Recovery-oriented independent living skill development</li>
               </ul>
-            </div>
-          </div>
-
-          <!-- Progress indicator -->
-          <div class="exec-progress-track">
-            <div class="exec-progress-label">Career Progress Indicator</div>
-            <div class="exec-progress-bar-wrap">
-              <div class="exec-progress-bar-fill" data-target-width="78" style="background:linear-gradient(90deg,var(--violet),#A78BFA);"></div>
             </div>
           </div>
 
@@ -3003,32 +3248,32 @@
     <p class="section-sub">Deep specialization across clinical, educational, and entrepreneurial domains.</p>
     <div class="expertise-grid">
       <div class="expertise-card reveal">
-        <div class="expertise-icon-wrap">🏥</div>
+        <div class="expertise-icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 8.5c0 4.5-8.5 10.5-8.5 10.5S3.5 13 3.5 8.5a4.5 4.5 0 0 1 8.5-2 4.5 4.5 0 0 1 8.5 2z"/><path d="M4 12h2.5l1.5-3 2 5 1.5-3H20"/></svg></div>
         <h3>Mental Health Support</h3>
         <p>Person-centered psychosocial recovery, crisis intervention, and evidence-informed clinical practice.</p>
       </div>
       <div class="expertise-card reveal reveal-delay-1">
-        <div class="expertise-icon-wrap">🌍</div>
+        <div class="expertise-icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></div>
         <h3>International Education</h3>
         <p>University partnerships, student admissions strategy, visa guidance, and cross-border placement management.</p>
       </div>
       <div class="expertise-card reveal reveal-delay-2">
-        <div class="expertise-icon-wrap">📚</div>
+        <div class="expertise-icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.5c-1.5-1-4-1.5-6-1.5v13c2 0 4.5.5 6 1.5 1.5-1 4-1.5 6-1.5V5c-2 0-4.5.5-6 1.5z"/><path d="M12 6.5V19.5"/></svg></div>
         <h3>Language Training</h3>
         <p>IELTS, PTE, and Duolingo preparation. Spoken English coaching and communication skills development.</p>
       </div>
       <div class="expertise-card reveal">
-        <div class="expertise-icon-wrap">💼</div>
+        <div class="expertise-icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg></div>
         <h3>Executive Leadership</h3>
         <p>Strategic operations, program design, team management, and outcomes-driven organizational development.</p>
       </div>
       <div class="expertise-card reveal reveal-delay-1">
-        <div class="expertise-icon-wrap">🚀</div>
+        <div class="expertise-icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c2.5 1.5 4 4.5 4 8 0 2-1 4-1 4l-3 3-3-3s-1-2-1-4c0-3.5 1.5-6.5 4-8z"/><circle cx="12" cy="9" r="1.5"/><path d="M9 14l-3 1 1-3M15 14l3 1-1-3"/></svg></div>
         <h3>Digital Entrepreneurship</h3>
         <p>E-commerce strategy, Amazon FBA, Shopify, digital marketing, and international business setup.</p>
       </div>
       <div class="expertise-card reveal reveal-delay-2">
-        <div class="expertise-icon-wrap">👥</div>
+        <div class="expertise-icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.2c2.2.4 3.5 1.9 3.5 4.3"/></svg></div>
         <h3>Professional Mentorship</h3>
         <p>1:1 coaching, cohort-based training, career development, and outcomes-focused growth planning.</p>
       </div>
@@ -3056,15 +3301,17 @@
     <div class="section-label">Social Proof</div>
     <h2 class="section-h2">Testimonials</h2>
     <p class="section-sub">What partners and collaborators say.</p>
+    <!-- TODO: Replace with real testimonials (full name, title, organization, and photo) as soon as they are available -->
     <div class="testimonials-grid">
       <div class="testimonial-card reveal">
         <div class="quote-mark">"</div>
         <div class="testimonial-quote">A rare combination of clinical insight and commercial acumen. He transforms outcomes — and makes it look effortless.</div>
         <div class="testimonial-footer">
-          <div class="testimonial-avatar">U</div>
+          <div class="testimonial-avatar"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.5-7 8-7s8 3 8 7"/></svg></div>
           <div>
             <div class="testimonial-author-name">University Partner</div>
             <div class="testimonial-author-role">Partnership Lead</div>
+            <div class="testimonial-author-note">Name withheld at contributor's request</div>
           </div>
         </div>
       </div>
@@ -3072,10 +3319,11 @@
         <div class="quote-mark">"</div>
         <div class="testimonial-quote">His mentorship model is exceptional. Measurable results, a structured approach, and genuine care for student success every step of the way.</div>
         <div class="testimonial-footer">
-          <div class="testimonial-avatar">E</div>
+          <div class="testimonial-avatar"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.5-7 8-7s8 3 8 7"/></svg></div>
           <div>
             <div class="testimonial-author-name">Education Colleague</div>
             <div class="testimonial-author-role">Education Consultant</div>
+            <div class="testimonial-author-note">Name withheld at contributor's request</div>
           </div>
         </div>
       </div>
@@ -3083,10 +3331,11 @@
         <div class="quote-mark">"</div>
         <div class="testimonial-quote">Brings both strategic vision and human-centered practice. A leader who consistently delivers impact, even under complexity.</div>
         <div class="testimonial-footer">
-          <div class="testimonial-avatar">B</div>
+          <div class="testimonial-avatar"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.5-7 8-7s8 3 8 7"/></svg></div>
           <div>
             <div class="testimonial-author-name">Business Stakeholder</div>
             <div class="testimonial-author-role">Executive Partner</div>
+            <div class="testimonial-author-note">Name withheld at contributor's request</div>
           </div>
         </div>
       </div>
@@ -3113,7 +3362,7 @@
         <div class="case-study-card" style="--card-accent:linear-gradient(90deg,#2563EB,#60A5FA);--card-orb:rgba(37,99,235,0.09);">
           <div class="case-card-header">
             <div class="case-card-domain">
-              <div class="case-domain-icon">🎓</div>
+              <div class="case-domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg></div>
               <div class="case-domain-meta">
                 <div class="case-domain-tag">International Education</div>
                 <div class="case-title">University Pathways &amp; Student Success</div>
@@ -3154,7 +3403,7 @@
         <div class="case-study-card" style="--card-accent:linear-gradient(90deg,#7C3AED,#A78BFA);--card-orb:rgba(124,58,237,0.08);">
           <div class="case-card-header">
             <div class="case-card-domain">
-              <div class="case-domain-icon">🧠</div>
+              <div class="case-domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 3a2.5 2.5 0 0 0-2.45 2.04A3 3 0 0 0 5 7.8 3 3 0 0 0 4 13a3 3 0 0 0 1.5 5.2A2.5 2.5 0 0 0 8 21a2.5 2.5 0 0 0 2-1V5.5A2.5 2.5 0 0 0 9.5 3z"/><path d="M14.5 3a2.5 2.5 0 0 1 2.45 2.04A3 3 0 0 1 19 7.8 3 3 0 0 1 20 13a3 3 0 0 1-1.5 5.2A2.5 2.5 0 0 1 16 21a2.5 2.5 0 0 1-2-1V5.5A2.5 2.5 0 0 1 14.5 3z"/></svg></div>
               <div class="case-domain-meta">
                 <div class="case-domain-tag">Mental Health &amp; Psychosocial Support</div>
                 <div class="case-title">Recovery-Oriented Care &amp; Community Resilience</div>
@@ -3195,7 +3444,7 @@
         <div class="case-study-card" style="--card-accent:linear-gradient(90deg,#C9A84C,#E5C97A);--card-orb:rgba(201,168,76,0.09);">
           <div class="case-card-header">
             <div class="case-card-domain">
-              <div class="case-domain-icon">🚀</div>
+              <div class="case-domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c2.5 1.5 4 4.5 4 8 0 2-1 4-1 4l-3 3-3-3s-1-2-1-4c0-3.5 1.5-6.5 4-8z"/><circle cx="12" cy="9" r="1.5"/><path d="M9 14l-3 1 1-3M15 14l3 1-1-3"/></svg></div>
               <div class="case-domain-meta">
                 <div class="case-domain-tag">Digital Entrepreneurship</div>
                 <div class="case-title">From Concept to Commercial Scale</div>
@@ -3258,7 +3507,7 @@
         <div class="contact-action-cards">
           <a href="https://wa.me/923185761176" target="_blank" rel="noopener noreferrer"
              class="contact-action-card whatsapp-card reveal">
-            <div class="action-card-icon-wrap">💬</div>
+            <div class="action-card-icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.5L3 21l1.9-5.1A8.5 8.5 0 1 1 21 11.5z"/></svg></div>
             <div class="action-card-content">
               <div class="action-card-label">WhatsApp</div>
               <div class="action-card-value">+92 318 576 1176</div>
@@ -3268,7 +3517,7 @@
           </a>
 
           <a href="mailto:zakmehmood3@gmail.com" class="contact-action-card reveal reveal-delay-1">
-  <div class="action-card-icon-wrap">✉️</div>
+  <div class="action-card-icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div>
 
   <div class="action-card-content">
     <div class="action-card-label">Email</div>
@@ -3284,7 +3533,7 @@
           <a href="Zakir_Mehmood_CV.pdf"
    download="Zakir_Mehmood_CV.pdf"
    class="contact-action-card cv-card reveal reveal-delay-2">
-            <div class="action-card-icon-wrap">📄</div>
+            <div class="action-card-icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h8M8 9h2"/></svg></div>
             <div class="action-card-content">
               <div class="action-card-label">Curriculum Vitae</div>
               <div class="action-card-value">Request Full CV</div>
@@ -3295,7 +3544,7 @@
 
           <div class="contact-meta-strip reveal reveal-delay-3">
             <div class="contact-meta-item">
-              <div class="contact-meta-icon">🌍</div>
+              <div class="contact-meta-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></div>
               <span>Based in Murray Bridge, SA · Mansehra, PK — serving globally</span>
             </div>
             <div class="contact-meta-item">
@@ -3303,7 +3552,7 @@
               <span>Response time: 24–48 hours · Timezone flexible for international clients</span>
             </div>
             <div class="contact-meta-item">
-              <div class="contact-meta-icon">🤝</div>
+              <div class="contact-meta-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11 12 5.5 6.5a1.5 1.5 0 0 0-2.5 1v1.7L7 13"/><path d="M13 12l5.5 5.5a1.5 1.5 0 0 0 2.5-1v-1.7L17 11"/><path d="M7 13l3 3a1.5 1.5 0 0 0 2.1 0 1.5 1.5 0 0 0 0-2.1L9 11"/><path d="M17 11l-3-3a1.5 1.5 0 0 0-2.1 0"/></svg></div>
               <span>Open to remote consulting, on-site leadership roles &amp; project partnerships</span>
             </div>
           </div>
@@ -3356,24 +3605,19 @@
 </footer>
 
 <script>
-/* ── LOADING ──────────────────────────────────────────── */
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.getElementById('loading-screen').classList.add('hidden');
-  }, 2200);
-});
-
 /* ── DARK MODE ────────────────────────────────────────── */
 const themeBtn = document.getElementById('theme-btn');
+const moonIcon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+const sunIcon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
 const saved = localStorage.getItem('theme');
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 if (saved === 'dark' || (!saved && prefersDark)) {
   document.body.classList.add('dark');
-  themeBtn.textContent = '☀️';
+  themeBtn.innerHTML = sunIcon;
 }
 themeBtn.addEventListener('click', () => {
   const isDark = document.body.classList.toggle('dark');
-  themeBtn.textContent = isDark ? '☀️' : '🌙';
+  themeBtn.innerHTML = isDark ? sunIcon : moonIcon;
   localStorage.setItem('theme', isDark ? 'dark' : 'light');
 });
 
@@ -3429,20 +3673,6 @@ const revealObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-/* Animate timeline progress bars when each role scrolls into view */
-document.querySelectorAll('.exec-progress-bar-fill').forEach(bar => {
-  const target = parseFloat(bar.dataset.targetWidth || '85');
-  const roleObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        setTimeout(() => { bar.style.width = target + '%'; }, 350);
-        roleObserver.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.25 });
-  roleObserver.observe(bar);
-});
 
 /* ── ANIMATED COUNTERS ────────────────────────────────── */
 function animateCounter(el) {
